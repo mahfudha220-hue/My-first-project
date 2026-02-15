@@ -1,0 +1,1 @@
+export const payments = [ { id: 'PAY001', invoice: 'INV002', amount: 75000, method: 'Mobile Money', date: '2026-02-10' } ]

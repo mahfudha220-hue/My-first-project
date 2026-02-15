@@ -1,0 +1,1 @@
+export const invoices = [ { id: 'INV001', customer: 'Ali Hassan', amount: 50000, status: 'Unpaid' }, { id: 'INV002', customer: 'Sara Juma', amount: 75000, status: 'Paid' } ]

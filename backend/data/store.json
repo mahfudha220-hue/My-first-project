@@ -1,0 +1,172 @@
+{
+  "invoices": [
+    {
+      "id": "INV001",
+      "customer": "Ali Hassan",
+      "amount": 50000,
+      "status": "Paid",
+      "dueDate": "2026-02-15",
+      "createdAt": "2026-02-10T09:30:00.000Z"
+    },
+    {
+      "id": "INV002",
+      "customer": "Sara Juma",
+      "amount": 75000,
+      "status": "Paid",
+      "dueDate": "2026-02-10",
+      "createdAt": "2026-02-08T10:15:00.000Z"
+    },
+    {
+      "id": "INV003",
+      "customer": "you",
+      "amount": 3000,
+      "status": "Paid",
+      "dueDate": "2026-02-14",
+      "createdAt": "2026-02-13T19:13:24.267Z"
+    },
+    {
+      "id": "INV004",
+      "customer": "ilham",
+      "amount": 700,
+      "status": "Unpaid",
+      "dueDate": "2036-02-03",
+      "createdAt": "2026-02-13T19:41:22.734Z"
+    },
+    {
+      "id": "INV005",
+      "customer": "ilham",
+      "amount": 700,
+      "status": "Paid",
+      "dueDate": "2036-02-03",
+      "createdAt": "2026-02-13T19:41:59.316Z"
+    }
+  ],
+  "payments": [
+    {
+      "id": "PAY001",
+      "invoice": "INV002",
+      "amount": 75000,
+      "method": "Mobile Money",
+      "date": "2026-02-10",
+      "createdAt": "2026-02-10T10:25:00.000Z"
+    },
+    {
+      "id": "PAY002",
+      "invoice": "INV001",
+      "amount": 1000,
+      "method": "Cash",
+      "date": "2026-02-13",
+      "createdAt": "2026-02-13T12:01:11.264Z"
+    },
+    {
+      "id": "PAY003",
+      "invoice": "INV003",
+      "amount": 6000,
+      "method": "Cash",
+      "date": "2026-02-12",
+      "createdAt": "2026-02-13T19:16:08.852Z"
+    },
+    {
+      "id": "PAY004",
+      "invoice": "INV003",
+      "amount": 500,
+      "method": "Cash",
+      "date": "2005-03-22",
+      "createdAt": "2026-02-13T19:29:21.998Z"
+    },
+    {
+      "id": "PAY005",
+      "invoice": "INV001",
+      "amount": 50000,
+      "method": "Cash",
+      "date": "2026-02-13",
+      "createdAt": "2026-02-13T19:34:29.761Z"
+    },
+    {
+      "id": "PAY006",
+      "invoice": "INV005",
+      "amount": 700,
+      "method": "Card",
+      "date": "2036-02-03",
+      "createdAt": "2026-02-13T19:43:42.665Z"
+    },
+    {
+      "id": "PAY007",
+      "invoice": "INV005",
+      "amount": 700,
+      "method": "Cash",
+      "date": "2026-02-13",
+      "createdAt": "2026-02-13T19:55:01.225Z"
+    },
+    {
+      "id": "PAY008",
+      "invoice": "INV005",
+      "amount": 700,
+      "method": "Bank Transfer",
+      "date": "2026-02-03",
+      "createdAt": "2026-02-13T19:55:33.280Z"
+    }
+  ],
+  "users": [
+    {
+      "id": "USR001",
+      "name": "Admin User",
+      "role": "admin",
+      "username": "Mahfudha",
+      "password": "123"
+    },
+    {
+      "id": "USR002",
+      "name": "Cashier One",
+      "role": "cashier",
+      "username": "cashier",
+      "password": "cashier123"
+    },
+    {
+      "id": "USR003",
+      "name": "Manager One",
+      "role": "manager",
+      "username": "Mahfudha",
+      "password": "123"
+    },
+    {
+      "id": "USR004",
+      "name": "Cashier Test",
+      "role": "cashier",
+      "username": "cashier_new_1959",
+      "password": "secret123"
+    },
+    {
+      "id": "USR005",
+      "name": "Lujaina Kunta",
+      "role": "cashier",
+      "username": "Lujaina",
+      "password": "Kunta@123"
+    },
+    {
+      "id": "USR006",
+      "name": "Ashfaina Ali",
+      "role": "cashier",
+      "username": "Ashfaina",
+      "password": "123@45A"
+    },
+    {
+      "id": "USR007",
+      "name": "Mahfudha",
+      "role": "cashier",
+      "username": "Mahfudha",
+      "password": "Maha@2004"
+    },
+    {
+      "id": "USR008",
+      "name": "ilham luna",
+      "role": "cashier",
+      "username": "luna",
+      "password": "kunta@123"
+    }
+  ],
+  "backup": {
+    "lastBackup": "2026-02-13T11:53:27.572Z",
+    "lastRestore": "2026-02-13T11:53:29.060Z"
+  }
+}
