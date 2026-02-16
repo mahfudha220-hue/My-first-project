@@ -22,7 +22,19 @@ function createToken() {
   return crypto.randomBytes(16).toString('hex')
 }
 
-app.use(cors({ origin: ['http://localhost:5173', 'http://127.0.0.1:5173'] }))
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin) {
+        return callback(null, true)
+      }
+      if (/^https?:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)) {
+        return callback(null, true)
+      }
+      return callback(new Error('Not allowed by CORS'))
+    }
+  })
+)
 app.use(express.json())
 
 const idTableMap = {
@@ -50,6 +62,28 @@ function sanitizeUser(user) {
     name: user.name,
     role: user.role,
     username: user.username
+  }
+}
+
+async function ensureDefaultDemoUsers() {
+  const defaults = [
+    { id: 'USR900', name: 'Admin User', role: 'admin', username: 'admin', password: 'admin123' },
+    {
+      id: 'USR901',
+      name: 'Manager User',
+      role: 'manager',
+      username: 'manager',
+      password: 'manager123'
+    }
+  ]
+
+  for (const user of defaults) {
+    await pool.query(
+      `INSERT INTO users (id, name, role, username, password)
+       VALUES ($1, $2, $3, $4, $5)
+       ON CONFLICT (username, role) DO NOTHING`,
+      [user.id, user.name, user.role, user.username, user.password]
+    )
   }
 }
 
@@ -103,42 +137,13 @@ app.post('/api/auth/login', async (req, res, next) => {
     sql += ' LIMIT 1'
 
     const result = await pool.query(sql, params)
-    const user = result.rows[0]
+    let user = result.rows[0]
 
     if (!user) {
       if (normalizedRole === 'cashier') {
-        let createdUser
-        let inserted = false
-        for (let attempt = 0; attempt < 3 && !inserted; attempt += 1) {
-          createdUser = {
-            id: await nextId('USR'),
-            name: String(username).trim(),
-            role: 'cashier',
-            username: String(username).trim(),
-            password: String(password)
-          }
-          try {
-            await pool.query(
-              'INSERT INTO users (id, name, role, username, password) VALUES ($1, $2, $3, $4, $5)',
-              [
-                createdUser.id,
-                createdUser.name,
-                createdUser.role,
-                createdUser.username,
-                createdUser.password
-              ]
-            )
-            inserted = true
-          } catch (err) {
-            if (err.code !== '23505' || attempt === 2) {
-              throw err
-            }
-          }
-        }
-        user = createdUser
-      } else {
-        return res.status(401).json({ message: 'Invalid credentials' })
+        return res.status(401).json({ message: 'Cashier account not found. Please register first.' })
       }
+      return res.status(401).json({ message: 'Invalid credentials' })
     }
 
     const token = createToken()
@@ -161,6 +166,11 @@ app.post('/api/auth/register-cashier', async (req, res, next) => {
     }
 
     const normalizedUsername = String(username).trim().toLowerCase()
+    if (!/^[a-z0-9._-]+$/.test(normalizedUsername)) {
+      return res.status(400).json({
+        message: 'username can only contain lowercase letters, numbers, dot, underscore, or hyphen'
+      })
+    }
     const exists = await pool.query(
       'SELECT 1 FROM users WHERE LOWER(username) = $1 AND role = $2 LIMIT 1',
       [normalizedUsername, 'cashier']
@@ -176,7 +186,7 @@ app.post('/api/auth/register-cashier', async (req, res, next) => {
         id: await nextId('USR'),
         name: String(name).trim(),
         role: 'cashier',
-        username: String(username).trim(),
+        username: normalizedUsername,
         password: String(password)
       }
 
@@ -501,9 +511,19 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ message: 'Internal server error' })
 })
 
-app.listen(PORT, () => {
-  console.log(`Backend running at http://localhost:${PORT}`)
-})
+async function startServer() {
+  try {
+    await ensureDefaultDemoUsers()
+    app.listen(PORT, () => {
+      console.log(`Backend running at http://localhost:${PORT}`)
+    })
+  } catch (err) {
+    console.error('Failed to start backend', err)
+    process.exit(1)
+  }
+}
+
+startServer()
 
 
 

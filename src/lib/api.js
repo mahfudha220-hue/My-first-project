@@ -2,14 +2,19 @@ export async function apiRequest(path, options = {}) {
   const token = localStorage.getItem('auth_token')
   const useAuth = options.auth !== false
 
-  const response = await fetch(path, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...(useAuth && token ? { Authorization: `Bearer ${token}` } : {}),
-      ...(options.headers || {}),
-    },
-    ...options,
-  })
+  let response
+  try {
+    response = await fetch(path, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...(useAuth && token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(options.headers || {}),
+      },
+      ...options,
+    })
+  } catch {
+    throw new Error('Cannot reach backend. Ensure API is running on http://localhost:4000')
+  }
 
   if (!response.ok) {
     if (response.status === 401) {

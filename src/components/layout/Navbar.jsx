@@ -17,7 +17,9 @@ export default function Navbar() {
         {user?.username ? (
           <span className="badge bg-info text-uppercase">{user.username}</span>
         ) : null}
-        <span className="badge bg-primary text-uppercase">{user?.role || 'guest'}</span>
+        {user?.role && user.role !== 'cashier' ? (
+          <span className="badge bg-primary text-uppercase">{user.role}</span>
+        ) : null}
         <button className="btn btn-sm btn-outline-secondary" type="button" onClick={handleLogout}>
           Logout
         </button>

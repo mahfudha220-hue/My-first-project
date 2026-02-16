@@ -27,6 +27,7 @@ The Vite dev server proxies `/api/*` to backend port `4000`, so frontend calls u
 - Admin: `admin` / `admin123`
 - Manager: `manager` / `manager123`
 - Cashier: register from login page first, then login with created account
+- Existing seeded accounts may also work (for example `Mahfudha` / `123` for admin/manager in older seed data)
 
 ## Role Access
 - `admin`: all pages
